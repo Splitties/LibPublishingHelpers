@@ -31,9 +31,17 @@ java {
 }
 
 publishing {
+    setupPomForMavenPublications()
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
         }
+        bintrayRepositoryPublishing(
+            project = project,
+            user = "louiscad",
+            repo = "maven",
+            bintrayPackage = "lib-publishing-helpers",
+            publish = true
+        )
     }
 }
