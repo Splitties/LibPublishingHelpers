@@ -8,7 +8,8 @@ It brings helpers/tools to make a readable and maintainable releasing script, av
 
 ## Why
 
-Because releasing new versions of Splitties, refreshVersions and other library projects is a chore to me, and I want it to be `fun` instead.
+Because releasing new versions of Splitties, refreshVersions and other library projects is a chore to me, and it's error-prone, especially since it's boring.
+I want it to be `fun` and reliable instead, so I made this library to be used in Kotlin scripts for library version releasing. That makes the process semi-automatic, with less ways for me to mess-up (or slow down, since I'd pay extra-care to not mess up).
 
 ## Status of the project
 
