@@ -19,6 +19,7 @@ fun PublishingExtension.bintrayRepositoryPublishing(
     }
     repositories {
         maven {
+            name = "bintray"
             url = URI(repoUrl)
             credentials {
                 username = project.propertyOrEnv("bintray_user")
