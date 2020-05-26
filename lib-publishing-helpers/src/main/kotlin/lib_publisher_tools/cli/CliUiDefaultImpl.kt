@@ -39,4 +39,19 @@ private object CliUiDefaultImpl : CliUi {
             }
         }
     }
+
+    override fun warn(message: String) {
+        print(AnsiColor.WHITE.boldHighIntensity)
+        print(AnsiColor.YELLOW.backgroundHighIntensity)
+        print(message)
+        println(AnsiColor.RESET)
+    }
+
+    override fun showError(message: String) {
+        System.err.println(message)
+    }
+
+    override fun showUnexpectedException(e: Exception) {
+        System.err.println(e)
+    }
 }
