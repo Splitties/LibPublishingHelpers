@@ -23,7 +23,7 @@ configure<JavaPluginConvention> {
 }
 tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "1.6" //TODO: Switch back to 1.8 when https://youtrack.jetbrains.com/issue/KT-39211 is fixed.
 }
 
 java {
