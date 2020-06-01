@@ -20,6 +20,22 @@ private object CliUiDefaultImpl : CliUi {
         println(AnsiColor.RESET)
     }
 
+    override fun askIfYes(yesNoQuestion: String): Boolean = runUntilSuccessWithErrorPrintingOrCancel {
+        print(AnsiColor.WHITE.boldHighIntensity)
+        print(AnsiColor.BLUE.background)
+        print("$yesNoQuestion y/n")
+        println(AnsiColor.RESET)
+        val input = readLine()?.trimEnd()
+        when {
+            input.isNullOrBlank() -> error("No input detected")
+            input.equals("y", ignoreCase = true) -> true
+            input.equals("yes", ignoreCase = true) -> true
+            input.equals("n", ignoreCase = true) -> false
+            input.equals("no", ignoreCase = true) -> false
+            else -> error("Unexpected input")
+        }
+    }
+
     override fun requestManualAction(instructions: String) {
         print(AnsiColor.WHITE.boldHighIntensity)
         print(AnsiColor.BLUE.background)
@@ -34,7 +50,7 @@ private object CliUiDefaultImpl : CliUi {
         print("$yesNoQuestion Y/n")
         println(AnsiColor.RESET)
         readLine()?.trimEnd().let { input ->
-            if (input != "Y" && !"yes".equals(input, ignoreCase = true)) {
+            if (input != "Y" && "yes".equals(input, ignoreCase = true).not()) {
                 println("Process aborted."); throw CancellationException()
             }
         }

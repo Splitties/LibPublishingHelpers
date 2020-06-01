@@ -6,6 +6,8 @@ interface CliUi {
     fun printInfo(message: String)
     fun printQuestion(message: String)
 
+    fun askIfYes(yesNoQuestion: String): Boolean
+
     fun requestManualAction(instructions: String)
     fun requestUserConfirmation(yesNoQuestion: String)
 
