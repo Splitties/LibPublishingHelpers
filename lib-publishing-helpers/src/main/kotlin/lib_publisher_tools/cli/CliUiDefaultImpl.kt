@@ -36,6 +36,32 @@ private object CliUiDefaultImpl : CliUi {
         }
     }
 
+    override fun <R> askChoice(
+        optionsWithValues: List<Pair<String, R>>
+    ): R = runUntilSuccessWithErrorPrintingOrCancel {
+        require(optionsWithValues.isNotEmpty()) { "Cannot ask choice with no options." }
+        val lastEntryNumberLength = optionsWithValues.size.toString().length
+        val entryNumberSuffix = ". "
+        val entryNumberTotalLength = lastEntryNumberLength + entryNumberSuffix.length
+        optionsWithValues.forEachIndexed { index, (option, _) ->
+            print(AnsiColor.WHITE.boldHighIntensity)
+            print(AnsiColor.BLUE.background)
+            val entryNumber = index + 1
+            print(entryNumber.toString().padEnd(entryNumberTotalLength))
+            print(entryNumberSuffix)
+            print(AnsiColor.RESET)
+            println(option)
+        }
+        val input = readLine()?.trimEnd()
+        if (input.isNullOrBlank()) error("No input detected")
+        val number = input.toIntOrNull() ?: error("Input is not an integer")
+        val index = number - 1
+        check(index in 0..optionsWithValues.lastIndex) {
+            "There's no option number $number."
+        }
+        optionsWithValues[index].second
+    }
+
     override fun requestManualAction(instructions: String) {
         print(AnsiColor.WHITE.boldHighIntensity)
         print(AnsiColor.BLUE.background)
