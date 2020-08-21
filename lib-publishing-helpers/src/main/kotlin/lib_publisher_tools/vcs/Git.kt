@@ -12,7 +12,7 @@ private object Git : Vcs {
 
     override fun didFileChange(file: File): Boolean {
         try {
-            "git diff HEAD --exit-code $this".execute()
+            "git diff HEAD --exit-code ${file.path}".execute()
         } catch (ignored: Exception) {
             return true // Exit code is 1 (translated to an exception) when file changed
         }
