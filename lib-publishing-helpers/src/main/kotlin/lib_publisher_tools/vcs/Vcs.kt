@@ -5,7 +5,7 @@ import java.io.File
 /**
  * VCS stands for Version Control System.
  *
- * As of 2020/04, **git** has been the most popular one for years if not decades.
+ * As of 2021/05, **git** has been the most popular one for years, if not decades.
  */
 interface Vcs {
     companion object;
