@@ -24,10 +24,7 @@ interface Vcs {
     fun getTags(): Sequence<String>
 }
 
-fun Vcs.isOnDevelopBranch() = isOnBranch(expectedBranchName = "develop")
 fun Vcs.checkoutMain() = checkoutBranch(branchName = "main")
-fun Vcs.checkoutDevelop() = checkoutBranch(branchName = "develop")
 fun Vcs.pullFromOrigin() = pull(repository = "origin")
 fun Vcs.pushToOrigin(withTags: Boolean = false) = push(repository = "origin", withTags = withTags)
 fun Vcs.mergeMainIntoCurrent() = mergeBranchIntoCurrent(sourceBranch = "main")
-fun Vcs.mergeDevelopIntoCurrent() = mergeBranchIntoCurrent(sourceBranch = "develop")
