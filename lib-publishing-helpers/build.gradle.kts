@@ -4,6 +4,7 @@ plugins {
     java
     kotlin("jvm") version "1.3.72"
     `maven-publish`
+    signing
 }
 
 group = "com.louiscad.incubator"
@@ -30,18 +31,28 @@ java {
     withSourcesJar()
 }
 
+signing {
+    useInMemoryPgpKeys(
+        propertyOrEnvOrNull("GPG_key_id"),
+        propertyOrEnvOrNull("GPG_private_key") ?: return@signing,
+        propertyOrEnv("GPG_private_password")
+    )
+    sign(publishing.publications)
+}
+
 publishing {
-    setupPomForMavenPublications()
+    publications.withType<MavenPublication> {
+        artifact(tasks.emptyJavadocJar())
+        setupPom()
+    }
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
         }
-        bintrayRepositoryPublishing(
+        mavenCentralStagingPublishing(
             project = project,
-            user = "louiscad",
-            repo = "maven",
-            bintrayPackage = "lib-publishing-helpers",
-            publish = true
+            repositoryId = System.getenv("sonatype_staging_repo_id")
         )
+        sonatypeSnapshotsPublishing(project = project)
     }
 }

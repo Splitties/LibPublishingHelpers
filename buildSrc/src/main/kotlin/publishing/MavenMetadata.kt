@@ -1,8 +1,12 @@
 @file:Suppress("PackageDirectoryMismatch")
 
-import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.UnknownTaskException
 import org.gradle.api.publish.maven.MavenPublication
-import org.gradle.kotlin.dsl.withType
+import org.gradle.api.tasks.TaskContainer
+import org.gradle.api.tasks.TaskProvider
+import org.gradle.api.tasks.bundling.Jar
+import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.register
 
 object Publishing {
     const val gitUrl = "https://github.com/LouisCAD/LibPublishingHelpers.git"
@@ -10,9 +14,12 @@ object Publishing {
     const val libraryDesc = "Tools for semi-auto library publishing (and other chores). Designed for Kotlin scripts."
 }
 
-fun PublishingExtension.setupPomForMavenPublications() {
-    publications.withType<MavenPublication> {
-        setupPom()
+fun TaskContainer.emptyJavadocJar(): TaskProvider<Jar> {
+    val taskName = "javadocJar"
+    return try {
+        named(name = taskName)
+    } catch (e: UnknownTaskException) {
+        register(name = taskName) { archiveClassifier by "javadoc" }
     }
 }
 
@@ -44,5 +51,9 @@ fun MavenPublication.setupPom(
         connection by gitUrl
         developerConnection by gitUrl
         url by siteUrl
+    }
+    if (gitUrl.startsWith("https://github.com")) issueManagement {
+        system by "GitHub"
+        url by gitUrl.replace(".git", "/issues")
     }
 }
