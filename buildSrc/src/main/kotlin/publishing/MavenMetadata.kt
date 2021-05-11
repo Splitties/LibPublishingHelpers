@@ -30,7 +30,7 @@ fun MavenPublication.setupPom(
     licenses {
         license {
             name by "The Apache Software License, Version 2.0"
-            url by "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            url by "https://www.apache.org/licenses/LICENSE-2.0.txt"
         }
     }
     developers {
