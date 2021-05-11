@@ -24,6 +24,7 @@ interface Vcs {
     fun getTags(): Sequence<String>
 }
 
+fun Vcs.isOnMainBranch() = isOnBranch(expectedBranchName = "main")
 fun Vcs.checkoutMain() = checkoutBranch(branchName = "main")
 fun Vcs.pullFromOrigin() = pull(repository = "origin")
 fun Vcs.pushToOrigin(withTags: Boolean = false) = push(repository = "origin", withTags = withTags)
