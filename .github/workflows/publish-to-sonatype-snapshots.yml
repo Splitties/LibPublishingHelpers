@@ -4,12 +4,11 @@ on:
 jobs:
   build-and-upload:
     name: Build and upload
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.4
       - name: Build and upload artifacts
         run: ./gradlew publishMavenPublicationToSonatypeSnapshotsRepository
-        shell: bash
         env:
           sonatype_username: ${{ secrets.SONATYPE_USERNAME }}
           sonatype_password: ${{ secrets.SONATYPE_PASSWORD }}
