@@ -14,6 +14,7 @@ interface Vcs {
     fun isOnBranch(expectedBranchName: String): Boolean
     fun commitAllFiles(commitMessage: String)
     fun tagAnnotated(tag: String, annotationMessage: String)
+    fun deleteTag(tag: String)
     fun checkoutBranch(branchName: String)
     fun pull(repository: String)
     fun push(repository: String, withTags: Boolean = false)

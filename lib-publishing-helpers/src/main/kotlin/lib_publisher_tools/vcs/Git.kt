@@ -32,6 +32,10 @@ private object Git : Vcs {
         "git tag -a $tag -m \"$annotationMessage\"".executeAndPrint()
     }
 
+    override fun deleteTag(tag: String) {
+        "git tag --delete $tag".executeAndPrint()
+    }
+
     override fun checkoutBranch(branchName: String) {
         "git checkout $branchName".executeAndPrint()
     }
