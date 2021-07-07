@@ -22,7 +22,7 @@ private val digitsOnlyBasedVersionNumberRegex = "^[0-9,.v-]+$".toRegex()
 
 private fun Version.isStable(): Boolean {
     val version = value
-    val uppercaseVersion = version.toUpperCase()
+    val uppercaseVersion = version.uppercase()
     val hasStableKeyword = knownStableKeywords.any { it in uppercaseVersion }
     return hasStableKeyword || digitsOnlyBasedVersionNumberRegex.matches(version.withoutKnownSuffixes())
 }

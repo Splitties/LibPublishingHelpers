@@ -11,13 +11,13 @@ private val executionDir = File(".")
 fun String.execute(
     workingDir: File = executionDir,
     @ExperimentalTime
-    timeout: Duration = 60.minutes
+    timeout: Duration = Duration.minutes(60)
 ): String {
     val proc = processBuilder(
         rawCommand = this,
         workingDir = workingDir
     ).start()
-    proc.waitFor(timeout.toLongMilliseconds(), TimeUnit.MILLISECONDS)
+    proc.waitFor(timeout.inWholeMilliseconds, TimeUnit.MILLISECONDS)
     return proc.inputStream.use { it.bufferedReader().readText() }.also {
         val exitValue = proc.exitValue()
         if (exitValue != 0) {
@@ -30,14 +30,14 @@ fun String.execute(
 fun String.executeAndPrint(
     workingDir: File = executionDir,
     @ExperimentalTime
-    timeout: Duration = 60.minutes
+    timeout: Duration = Duration.minutes(60)
 ) {
     val proc = processBuilder(rawCommand = this, workingDir = workingDir)
         .redirectInput(ProcessBuilder.Redirect.INHERIT)
         .redirectOutput(ProcessBuilder.Redirect.INHERIT)
         .redirectError(ProcessBuilder.Redirect.INHERIT)
         .start()
-    proc.waitFor(timeout.toLongMilliseconds(), TimeUnit.MILLISECONDS)
+    proc.waitFor(timeout.inWholeMilliseconds, TimeUnit.MILLISECONDS)
     val exitValue = proc.exitValue()
     if (exitValue != 0) {
         throw Exception("Non zero exit value: $exitValue")

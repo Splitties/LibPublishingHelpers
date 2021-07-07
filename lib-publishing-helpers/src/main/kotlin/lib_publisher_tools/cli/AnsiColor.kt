@@ -6,7 +6,7 @@ enum class AnsiColor(private val colorNumber: Byte) {
     companion object {
         private const val prefix = "\u001B"
         const val RESET = "$prefix[0m"
-        private val isCompatible = "win" !in System.getProperty("os.name").toLowerCase()
+        private val isCompatible = "win" !in System.getProperty("os.name").lowercase()
     }
 
     val regular get() = if (isCompatible) "$prefix[0;3${colorNumber}m" else ""
