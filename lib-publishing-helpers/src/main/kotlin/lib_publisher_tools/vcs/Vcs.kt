@@ -23,6 +23,10 @@ interface Vcs {
     fun getRemotePushUrl(repository: String): String
     fun mergeBranchIntoCurrent(sourceBranch: String)
     fun getTags(): Sequence<String>
+    fun getCurrentBranch(): String
+    fun getBranches(): Sequence<String>
+    fun getRemoteBranches(): Sequence<String>
+    fun createBranch(branchName: String)
 }
 
 fun Vcs.isOnMainBranch() = isOnBranch(expectedBranchName = "main")

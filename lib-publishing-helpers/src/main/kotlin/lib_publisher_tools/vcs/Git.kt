@@ -61,4 +61,17 @@ private object Git : Vcs {
     }
 
     override fun getTags() = "git tag".execute().trimEnd().lineSequence()
+
+    override fun getCurrentBranch() = "git branch --show-current".execute().trimEnd()
+
+    override fun getBranches() = "git branch".execute().trimEnd().lineSequence().map {
+        it.substringAfter("* ").trimStart()
+    }
+
+    override fun getRemoteBranches() = "git branch -r".execute().trimEnd().lineSequence().mapNotNull {
+        if (it.startsWith("warning: ")) null
+        else it.trimStart()
+    }
+
+    override fun createBranch(branchName: String) = "git branch $branchName".executeAndPrint()
 }
