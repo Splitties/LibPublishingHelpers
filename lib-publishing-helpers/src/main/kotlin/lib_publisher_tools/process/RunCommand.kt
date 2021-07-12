@@ -7,6 +7,8 @@ import kotlin.time.*
 
 private val executionDir = File(".")
 
+class NonZeroExitCodeException(val value: Int) : Exception("Non zero exit value: $value")
+
 @OptIn(ExperimentalTime::class)
 fun String.execute(
     workingDir: File = executionDir,
@@ -21,7 +23,7 @@ fun String.execute(
     return proc.inputStream.use { it.bufferedReader().readText() }.also {
         val exitValue = proc.exitValue()
         if (exitValue != 0) {
-            throw Exception("Non zero exit value: $exitValue")
+            throw NonZeroExitCodeException(exitValue)
         }
     }
 }
@@ -40,7 +42,7 @@ fun String.executeAndPrint(
     proc.waitFor(timeout.inWholeMilliseconds, TimeUnit.MILLISECONDS)
     val exitValue = proc.exitValue()
     if (exitValue != 0) {
-        throw Exception("Non zero exit value: $exitValue")
+        throw NonZeroExitCodeException(exitValue)
     }
 }
 

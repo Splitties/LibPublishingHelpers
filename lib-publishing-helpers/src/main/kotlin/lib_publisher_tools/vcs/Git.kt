@@ -1,5 +1,6 @@
 package lib_publisher_tools.vcs
 
+import lib_publisher_tools.process.NonZeroExitCodeException
 import lib_publisher_tools.process.execute
 import lib_publisher_tools.process.executeAndPrint
 import java.io.File
@@ -13,8 +14,11 @@ private object Git : Vcs {
     override fun didFileChange(file: File): Boolean {
         try {
             "git diff HEAD --exit-code ${file.path}".execute()
-        } catch (ignored: Exception) {
-            return true // Exit code is 1 (translated to an exception) when file changed
+        } catch (e: NonZeroExitCodeException) {
+            when (e.value) {
+                1 -> return true // Exit code is 1 when file changed.
+                else -> throw e
+            }
         }
         return false // Exit code is 0 if not changed.
     }
