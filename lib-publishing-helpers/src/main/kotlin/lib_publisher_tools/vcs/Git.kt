@@ -44,15 +44,27 @@ private object Git : Vcs {
         "git checkout $branchName".executeAndPrint()
     }
 
+    override fun checkoutAndTrackRemoteBranch(remoteName: String, branchName: String) {
+        "git checkout --track $remoteName/$branchName".executeAndPrint()
+    }
+
+    override fun fetch() {
+        "git fetch".executeAndPrint()
+    }
+
     override fun pull(repository: String) {
         "git pull $repository".executeAndPrint()
     }
 
-    override fun push(repository: String, withTags: Boolean) {
-        if (withTags) {
-            "git push --tags $repository"
-        } else {
-            "git push $repository"
+    override fun push(repository: String, withTags: Boolean, setUpstream: Boolean, branchName: String?) {
+        buildString {
+            append("git push")
+            if (withTags) append(" --tags")
+            if (setUpstream) append(" --set-upstream")
+            append(' '); append(repository)
+            if (branchName != null) {
+                append(' '); append(branchName)
+            }
         }.executeAndPrint()
     }
 
@@ -78,4 +90,6 @@ private object Git : Vcs {
     }
 
     override fun createBranch(branchName: String) = "git branch $branchName".executeAndPrint()
+
+    override fun createAndCheckoutBranch(branchName: String) = "git checkout -b $branchName".executeAndPrint()
 }

@@ -16,8 +16,10 @@ interface Vcs {
     fun tagAnnotated(tag: String, annotationMessage: String)
     fun deleteTag(tag: String)
     fun checkoutBranch(branchName: String)
+    fun checkoutAndTrackRemoteBranch(remoteName: String, branchName: String)
+    fun fetch()
     fun pull(repository: String)
-    fun push(repository: String, withTags: Boolean = false)
+    fun push(repository: String, withTags: Boolean = false, setUpstream: Boolean = false, branchName: String? = null)
     fun getRemoteUrl(repository: String): String
     fun getRemoteFetchUrl(repository: String): String
     fun getRemotePushUrl(repository: String): String
@@ -27,6 +29,7 @@ interface Vcs {
     fun getBranches(): Sequence<String>
     fun getRemoteBranches(): Sequence<String>
     fun createBranch(branchName: String)
+    fun createAndCheckoutBranch(branchName: String)
 }
 
 fun Vcs.isOnMainBranch() = isOnBranch(expectedBranchName = "main")
@@ -34,3 +37,11 @@ fun Vcs.checkoutMain() = checkoutBranch(branchName = "main")
 fun Vcs.pullFromOrigin() = pull(repository = "origin")
 fun Vcs.pushToOrigin(withTags: Boolean = false) = push(repository = "origin", withTags = withTags)
 fun Vcs.mergeMainIntoCurrent() = mergeBranchIntoCurrent(sourceBranch = "main")
+fun Vcs.hasBranch(branchName: String): Boolean = branchName in getBranches()
+fun Vcs.hasRemoteBranch(fullBranchName: String): Boolean = fullBranchName in getRemoteBranches()
+fun Vcs.hasRemoteBranch(
+    remoteName: String,
+    branchName: String
+): Boolean = hasRemoteBranch(fullBranchName = "$remoteName/$branchName")
+
+fun Vcs.hasTag(tagName: String): Boolean = getTags().any { it == tagName }
