@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.louiscad.incubator"
-version = "0.2.3-SNAPSHOT"
+version = "0.2.3"
 
 repositories {
     mavenCentral()
