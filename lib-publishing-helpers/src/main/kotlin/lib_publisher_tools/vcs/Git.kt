@@ -52,6 +52,10 @@ private object Git : Vcs {
         "git fetch".executeAndPrint()
     }
 
+    override fun fetch(repository: String, sourceBranch: String, destinationBranch: String) {
+        "git fetch $repository $sourceBranch:$destinationBranch".executeAndPrint()
+    }
+
     override fun pull(repository: String) {
         "git pull $repository".executeAndPrint()
     }

@@ -18,6 +18,7 @@ interface Vcs {
     fun checkoutBranch(branchName: String)
     fun checkoutAndTrackRemoteBranch(remoteName: String, branchName: String)
     fun fetch()
+    fun fetch(repository: String, sourceBranch: String, destinationBranch: String)
     fun pull(repository: String)
     fun push(repository: String, withTags: Boolean = false, setUpstream: Boolean = false, branchName: String? = null)
     fun getRemoteUrl(repository: String): String
@@ -35,6 +36,18 @@ interface Vcs {
 fun Vcs.isOnMainBranch() = isOnBranch(expectedBranchName = "main")
 fun Vcs.checkoutMain() = checkoutBranch(branchName = "main")
 fun Vcs.pullFromOrigin() = pull(repository = "origin")
+
+/**
+ * Allows updating a branch (like a fast-forwarding `git pull` would do), without checking it out.
+ *
+ * Executes `git fetch origin targetBranch:targetBranch` under the hood.
+ */
+fun Vcs.updateBranchFromOrigin(targetBranch: String) = fetch(
+    repository = "origin",
+    sourceBranch = targetBranch,
+    destinationBranch = targetBranch
+)
+
 fun Vcs.pushToOrigin(withTags: Boolean = false) = push(repository = "origin", withTags = withTags)
 fun Vcs.mergeMainIntoCurrent() = mergeBranchIntoCurrent(sourceBranch = "main")
 fun Vcs.hasBranch(branchName: String): Boolean = branchName in getBranches()
