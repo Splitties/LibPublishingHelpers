@@ -4,11 +4,9 @@ import lib_publisher_tools.process.NonZeroExitCodeException
 import lib_publisher_tools.process.execute
 import lib_publisher_tools.process.executeAndPrint
 import java.io.File
-import kotlin.time.*
 
 val Vcs.Companion.git: Vcs get() = Git
 
-@OptIn(ExperimentalTime::class)
 private object Git : Vcs {
 
     override fun didFileChange(file: File): Boolean {

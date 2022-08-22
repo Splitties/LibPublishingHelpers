@@ -4,16 +4,15 @@ import java.io.File
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 import kotlin.time.*
+import kotlin.time.Duration.Companion.minutes
 
 private val executionDir = File(".")
 
 class NonZeroExitCodeException(val value: Int) : Exception("Non zero exit value: $value")
 
-@OptIn(ExperimentalTime::class)
 fun String.execute(
     workingDir: File = executionDir,
-    @ExperimentalTime
-    timeout: Duration = Duration.minutes(60)
+    timeout: Duration = 60.minutes
 ): String {
     val proc = processBuilder(
         rawCommand = this,
@@ -28,11 +27,9 @@ fun String.execute(
     }
 }
 
-@OptIn(ExperimentalTime::class)
 fun String.executeAndPrint(
     workingDir: File = executionDir,
-    @ExperimentalTime
-    timeout: Duration = Duration.minutes(60)
+    timeout: Duration = 60.minutes
 ) {
     val proc = processBuilder(rawCommand = this, workingDir = workingDir)
         .redirectInput(ProcessBuilder.Redirect.INHERIT)
