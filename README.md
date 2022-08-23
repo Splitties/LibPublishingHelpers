@@ -9,11 +9,9 @@ It brings helpers/tools to make a readable and maintainable releasing script, av
 ## Why
 
 Because releasing new versions of Splitties, refreshVersions and other library projects is a chore to me, and it's error-prone, especially since it's boring.
-I want it to be `fun` and reliable instead, so I made this library to be used in Kotlin scripts for library version releasing. That makes the process semi-automatic, with less ways for me to mess-up (or slow down, since I'd pay extra-care to not mess up).
+I want it to be `fun` and reliable instead, so I made this library to be used in Kotlin scripts for library version releasing. That makes the process semi-automatic, with fewer ways for me to mess up (or slow down, since I'd pay extra-care to not mess up).
 
 ## Status of the project
-
-_For now, there's no release of the built library on a public repository as I'm experimenting locally._
 
 While non dev releases are stable enough to be used safely enough (but at your own risk), the API is not stable, which means it might change from a release to another, requiring updates to the source code.
 
@@ -41,7 +39,7 @@ Type `CliUi.` in your IDE, and discover capabilities from autocomplete.
 
 ### Check user input
 
-The `checkIsValidVersionString()` extension function for `String?` can help you ensure a valid version has been entered in a versioning + releasing script (outlawing non digital prefixes, illegal characters such as spaces, etc.).
+The `checkIsValidVersionString()` extension function for `String?` can help you ensure a valid version has been entered in a versioning + releasing script (outlawing non-digital prefixes, illegal characters such as spaces, etc.).
 
 ### Interact with other apps
 
