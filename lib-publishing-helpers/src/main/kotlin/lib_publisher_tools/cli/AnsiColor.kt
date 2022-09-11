@@ -1,19 +1,37 @@
 package lib_publisher_tools.cli
 
 enum class AnsiColor(private val colorNumber: Byte) {
-    BLACK(0), RED(1), GREEN(2), YELLOW(3), BLUE(4), MAGENTA(5), CYAN(6), WHITE(7);
+    BLACK(0),
+    RED(1),
+    GREEN(2),
+    YELLOW(3),
+    BLUE(4),
+    MAGENTA(5),
+    CYAN(6),
+    WHITE(7);
 
     companion object {
         private const val prefix = "\u001B"
-        const val RESET = "$prefix[0m"
-        private val isCompatible = "win" !in System.getProperty("os.name").lowercase()
+        private val isCompatible = "win" !in System.getProperty("os.name").lowercase() //TODO: Support PowerShell?
+        private inline fun ifCompatible(block: () -> String): String = if (isCompatible) block() else ""
+
+        val RESET = ifCompatible { "$prefix[0m" }
+
+        val bold get() = ifCompatible { "$prefix[1m" }
+        val dim get() = ifCompatible { "$prefix[2m" }
+        val italic get() = ifCompatible { "$prefix[3m" }
+        val underline get() = ifCompatible { "$prefix[4m" }
+        val blinking get() = ifCompatible { "$prefix[5m" }
+        val inverse get() = ifCompatible { "$prefix[7m" }
+        val invisible get() = ifCompatible { "$prefix[8m" }
     }
 
-    val regular get() = if (isCompatible) "$prefix[0;3${colorNumber}m" else ""
-    val bold get() = if (isCompatible) "$prefix[1;3${colorNumber}m" else ""
-    val underline get() = if (isCompatible) "$prefix[4;3${colorNumber}m" else ""
-    val background get() = if (isCompatible) "$prefix[4${colorNumber}m" else ""
-    val highIntensity get() = if (isCompatible) "$prefix[0;9${colorNumber}m" else ""
-    val boldHighIntensity get() = if (isCompatible) "$prefix[1;9${colorNumber}m" else ""
-    val backgroundHighIntensity get() = if (isCompatible) "$prefix[0;10${colorNumber}m" else ""
+    override fun toString() = regular
+    val regular get() = ifCompatible { "$prefix[0;3${colorNumber}m" }
+    val bold get() = ifCompatible { "$prefix[1;3${colorNumber}m" }
+    val underline get() = ifCompatible { "$prefix[4;3${colorNumber}m" }
+    val background get() = ifCompatible { "$prefix[4${colorNumber}m" }
+    val highIntensity get() = ifCompatible { "$prefix[0;9${colorNumber}m" }
+    val boldHighIntensity get() = ifCompatible { "$prefix[1;9${colorNumber}m" }
+    val backgroundHighIntensity get() = ifCompatible { "$prefix[0;10${colorNumber}m" }
 }
