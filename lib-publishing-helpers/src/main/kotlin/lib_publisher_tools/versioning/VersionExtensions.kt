@@ -3,18 +3,7 @@ package lib_publisher_tools.versioning
 /**
  * Check order is important. From least stable to most stable, then unknown
  */
-fun Version.stabilityLevel(): StabilityLevel = when {
-    "SNAPSHOT" in value -> StabilityLevel.Snapshot
-    "preview" in value -> StabilityLevel.Preview
-    "dev" in value -> StabilityLevel.Development
-    "alpha" in value -> StabilityLevel.Alpha
-    "beta" in value -> StabilityLevel.Beta
-    "eap" in value -> StabilityLevel.EarlyAccessProgram
-    isMilestone() -> StabilityLevel.Milestone
-    "rc" in value -> StabilityLevel.ReleaseCandidate
-    isStable() -> StabilityLevel.Stable
-    else -> StabilityLevel.Unknown
-}
+fun Version.stabilityLevel(): StabilityLevel = stabilityLevel
 
 private val knownVersionSuffixes = listOf("-android", "-jre")
 private val knownStableKeywords = listOf("RELEASE", "FINAL", "GA")

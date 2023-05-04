@@ -9,8 +9,7 @@ enum class StabilityLevel {
     Alpha,
     Development,
     Preview,
-    Snapshot,
-    Unknown;
+    Snapshot;
 
     infix fun isMoreStableThan(other: StabilityLevel): Boolean = ordinal < other.ordinal
     infix fun isLessStableThan(other: StabilityLevel): Boolean = ordinal > other.ordinal
