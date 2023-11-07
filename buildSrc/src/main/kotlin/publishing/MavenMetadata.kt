@@ -23,7 +23,6 @@ fun TaskContainer.emptyJavadocJar(): TaskProvider<Jar> {
     }
 }
 
-@Suppress("UnstableApiUsage")
 fun MavenPublication.setupPom(
     gitUrl: String = Publishing.gitUrl,
     siteUrl: String = Publishing.siteUrl,
