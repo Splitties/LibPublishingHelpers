@@ -1,26 +1,9 @@
-rootProject.name = "LibPublishingHelpers"
+package org.splitties.incubator.gradle
 
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-    }
-}
+import org.gradle.api.initialization.Settings
 
-val versionOfThisProject: String = file("version.txt").bufferedReader().use { it.readLine() }
-
-gradle.beforeProject {
-    version = versionOfThisProject
-}
-
-include {
-    "lib-publishing-helpers"()
-    "gradle-plugins" {
-        "settings-include-dsl"()
-    }
-}
-
-//region include DSL
 class ModuleParentScope(
+    private val settings: Settings,
     private val name: String,
     private val parent: ModuleParentScope? = null
 ) {
@@ -29,9 +12,10 @@ class ModuleParentScope(
         check(startsWith(':').not())
         val moduleName = ":$this"
         val projectName = "$parentalPath$moduleName"
-        include(projectName)
+        settings.include(projectName)
         block?.let { buildNode ->
             ModuleParentScope(
+                settings = settings,
                 name = moduleName,
                 parent = this@ModuleParentScope
             ).buildNode()
@@ -43,8 +27,3 @@ class ModuleParentScope(
             .map { it.name }.toList().reversed().joinToString("")
 
 }
-
-inline fun include(block: ModuleParentScope.() -> Unit) {
-    ModuleParentScope("").block()
-}
-//endregion
