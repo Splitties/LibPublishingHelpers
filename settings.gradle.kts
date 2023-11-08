@@ -16,6 +16,7 @@ include {
     "lib-publishing-helpers"()
     "gradle-plugins" {
         "settings-include-dsl"()
+        "version-sync"()
     }
 }
 
