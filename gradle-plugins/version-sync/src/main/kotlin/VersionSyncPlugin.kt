@@ -13,10 +13,8 @@ class VersionSyncPlugin : Plugin<Settings> {
             val extension = extensions.getByType<VersionSyncExtension>()
             val version = extension.versionFile.convention(rootDir.resolve("version.txt")).map { file ->
                 file.bufferedReader().use { it.readLine() }
-            }
-            gradle.beforeProject {
-                project.version = version.get()
-            }
+            }.get()
+            gradle.beforeProject { project.version = version }
         }
         //TODO: Register extension or whatever to allow generating a property with:
         // - given visibility (default to, if any?)
