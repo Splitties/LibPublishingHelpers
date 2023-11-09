@@ -1,38 +1,36 @@
 package org.splitties.incubator.gradle
 
-import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.file.Directory
-import org.gradle.api.file.DirectoryProperty
-import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.OutputDirectory
-import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.TaskProvider
-import org.gradle.kotlin.dsl.register
+import org.gradle.api.tasks.Delete
+import org.gradle.kotlin.dsl.named
 import org.splitties.incubator.gradle.VersionFileWriter.Kotlin.Visibility.Internal
 import org.splitties.incubator.gradle.VersionFileWriter.Kotlin.Visibility.Public
+import java.io.File
 import java.io.Serializable
 
 fun Project.putVersionInCode(
-    taskName: String = "syncVersion",
     outputDirectory: Provider<Directory>,
     writer: VersionFileWriter,
-    vararg triggerTasks: TaskProvider<*>,
 ) {
-    val syncVersionTask = tasks.register<FileWriterTask>(taskName) {
-        version.set(project.version.toString())
-        this.outputDirectory.set(outputDirectory)
-        this.writer.set(writer)
+    val version = project.version.toString()
+    tasks.named<Delete>("clean").configure {
+        doLast { writer.write(version, outputDirectory.get()) }
     }
-    triggerTasks.forEach {
-        it.configure { dependsOn(syncVersionTask) }
+    val file = writer.targetFile(outputDirectory.get())
+    // We write the file as soon as possible, so it's visible in the IDE as soon as possible.
+    // This is compatible with Gradle configuration cache.
+    if (file.exists().not()) {
+        writer.write(version, outputDirectory.get())
+        return
     }
-    if (writer.exists(outputDirectory.get()).not()) {
-        // If there's no file at all, write it now.
-        //TODO: Revisit since property name and value can drift out of sync until triggerTasks run.
-        writer.write(project.version.toString(), outputDirectory.get())
+    val existingCode = file.readText()
+    val newCode = writer.generate(version)
+    if (newCode != existingCode) {
+        outputDirectory.get().asFile.mkdirs()
+        file.writeText(newCode)
+        return
     }
 }
 
@@ -46,9 +44,10 @@ abstract class VersionFileWriter(
     }
     protected abstract fun _write(version: String, outputDir: Directory)
 
-    fun exists(outputDir: Directory): Boolean {
-        val file = outputDir.file(fileName).asFile
-        return file.exists()
+    abstract fun generate(version: String): String
+
+    fun targetFile(outputDir: Directory): File {
+        return outputDir.file(fileName).asFile
     }
 
     class Kotlin(
@@ -71,7 +70,7 @@ abstract class VersionFileWriter(
             outputDir.file(fileName).asFile.writeText(kotlinCode)
         }
 
-        fun generate(version: String): String {
+        override fun generate(version: String): String {
             val keywords = buildString {
                 when (visibility) {
                     Internal -> append("internal")
@@ -86,22 +85,5 @@ abstract class VersionFileWriter(
                     
                 """.trimIndent()
         }
-    }
-}
-
-internal abstract class FileWriterTask : DefaultTask() {
-
-    @get:Input
-    abstract val writer: Property<VersionFileWriter>
-
-    @get:Input
-    abstract val version: Property<String>
-
-    @get:OutputDirectory
-    abstract val outputDirectory: DirectoryProperty
-
-    @TaskAction
-    fun writeVersionFileIntoDirectory() {
-        writer.get().write(version.get(), outputDirectory.get())
     }
 }

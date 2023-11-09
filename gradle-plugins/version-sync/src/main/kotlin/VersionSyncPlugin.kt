@@ -16,9 +16,5 @@ class VersionSyncPlugin : Plugin<Settings> {
             }.get()
             gradle.beforeProject { project.version = version }
         }
-        //TODO: Register extension or whatever to allow generating a property with:
-        // - given visibility (default to, if any?)
-        // - given name (default to, if any?)
-        // - given package
     }
 }
