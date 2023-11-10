@@ -23,5 +23,5 @@ kotlin {
 pluginBundle {
     website = "https://github.com/LouisCAD/LibPublishingHelpers"
     vcsUrl = "https://github.com/LouisCAD/LibPublishingHelpers.git"
-    tags = listOf("kotlin-dsl", "kotlin")
+    tags = listOf("kotlin-dsl", "kotlin", "versioning", "multi-modules")
 }
