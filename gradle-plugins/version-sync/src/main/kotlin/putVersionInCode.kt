@@ -5,8 +5,6 @@ import org.gradle.api.file.Directory
 import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Delete
 import org.gradle.kotlin.dsl.named
-import org.splitties.incubator.gradle.VersionFileWriter.Kotlin.Visibility.Internal
-import org.splitties.incubator.gradle.VersionFileWriter.Kotlin.Visibility.Public
 import java.io.File
 import java.io.Serializable
 
@@ -53,13 +51,10 @@ abstract class VersionFileWriter(
     class Kotlin(
         fileName: String,
         private val `package`: String,
-        private val visibility: Visibility = Internal,
+        private val public: Boolean = false,
         private val propertyName: String,
         private val const: Boolean = false
     ) : VersionFileWriter(fileName), Serializable {
-        enum class Visibility {
-            Internal, Public
-        }
 
         init {
             check(fileName.endsWith(".kt"))
@@ -72,11 +67,8 @@ abstract class VersionFileWriter(
 
         override fun generate(version: String): String {
             val keywords = buildString {
-                when (visibility) {
-                    Internal -> append("internal")
-                    Public -> append("public")
-                }
-                append(if (const) " const val" else " val")
+                append(if (public) "public " else "internal ")
+                append(if (const) "const val" else "val")
             }
             return """
                     package $`package`
