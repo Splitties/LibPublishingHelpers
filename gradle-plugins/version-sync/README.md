@@ -22,7 +22,7 @@ versionSync { versionFile = file("library-version.txt") }
 The reason we put the version in a plain text file is because it allows it to be used as CI triggers too,
 and any tool can easily read it without having to parse Kotlin or Groovy based Gradle files.
 
-### 2. Embed the version in the code of a project
+### 2. Allow embedding the version in the code of a project
 
 A Gradle plugin, or anything you make might need to know its own version.
 
