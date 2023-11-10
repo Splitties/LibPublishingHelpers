@@ -21,7 +21,7 @@ kotlin {
 }
 
 pluginBundle {
-    website = "https://github.com/LouisCAD/LibPublishingHelpers"
+    website = "https://github.com/LouisCAD/LibPublishingHelpers/tree/main/gradle-plugins/settings-include-dsl"
     vcsUrl = "https://github.com/LouisCAD/LibPublishingHelpers.git"
     tags = listOf("kotlin-dsl", "kotlin")
 }
