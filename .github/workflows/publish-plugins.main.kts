@@ -28,7 +28,6 @@ workflow(
         setupJava()
         gradle(
             task = "publishPlugins",
-            scan = true,
             properties = mapOf(
                 "gradle.publish.key" to expr { secrets["gradle_publish_key"]!! },
                 "gradle.publish.secret" to expr { secrets["gradle_publish_secret"]!! }
