@@ -3,7 +3,6 @@ import publishing.trySignAll
 
 plugins {
     id("com.gradle.plugin-publish")
-    signing
 }
 
 dependencies {
@@ -11,4 +10,3 @@ dependencies {
 }
 
 java { withSourcesJar() }
-signing { trySignAll() }
