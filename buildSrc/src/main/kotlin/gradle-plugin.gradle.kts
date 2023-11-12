@@ -3,8 +3,6 @@ import publishing.trySignAll
 
 plugins {
     id("com.gradle.plugin-publish")
-    `java-gradle-plugin`
-    `maven-publish`
     signing
 }
 
