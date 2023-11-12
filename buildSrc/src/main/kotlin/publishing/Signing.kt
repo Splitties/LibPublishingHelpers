@@ -1,7 +1,8 @@
 package publishing
 
-import gradle.kotlin.dsl.accessors._08d0b7ba318b04adf2094ca092a1d609.publishing
 import org.gradle.api.Project
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.kotlin.dsl.getValue
 import org.gradle.plugins.signing.SigningExtension
 import propertyOrEnv
 import propertyOrEnvOrNull
@@ -13,5 +14,6 @@ fun SigningExtension.trySignAll() {
         propertyOrEnvOrNull("GPG_private_key") ?: return,
         propertyOrEnv("GPG_private_password")
     )
+    val publishing: PublishingExtension by extensions
     sign(publishing.publications)
 }
