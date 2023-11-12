@@ -26,7 +26,7 @@ and any tool can easily read it without having to parse Kotlin or Groovy based G
 
 A Gradle plugin, or anything you make might need to know its own version.
 
-For example, the SqlDelight Gradle plugin needs to know its version for driver dependencies for host/end app projects. 
+For example, the SqlDelight Gradle plugin needs to know its version for driver dependencies for host/end app projects. ([This is how they have been doing it](https://github.com/cashapp/sqldelight/blob/2e76f949c7b333fa9ae62d0525f27d7bb8a10092/sqldelight-compiler/build.gradle#L58-L93))
 
 With the Version sync Gradle plugin, you can do it easily from your `build.gradle.kts` file:
 
