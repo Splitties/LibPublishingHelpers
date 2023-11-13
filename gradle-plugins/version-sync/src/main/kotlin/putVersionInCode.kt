@@ -1,4 +1,4 @@
-package org.splitties.incubator.gradle
+package org.splitties.gradle
 
 import org.gradle.api.Project
 import org.gradle.api.file.Directory

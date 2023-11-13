@@ -31,7 +31,7 @@ For example, the SqlDelight Gradle plugin needs to know its version for driver d
 With the Version sync Gradle plugin, you can do it easily from your `build.gradle.kts` file:
 
 ```gradle.kts
-import org.splitties.incubator.gradle.putVersionInCode
+import org.splitties.gradle.putVersionInCode
 
 // Rest of your build code...
 
@@ -56,5 +56,5 @@ Go in the `settings.gradle.kts` file, located at the root of your Gradle project
 Add the following line into the `plugins { … }` block (add one at the top of the file it there's none):
 
 ```gradle.kts
-    id("org.splitties.incubator.version-sync") version "0.2.6-SNAPSHOT"
+    id("org.splitties.version-sync") version "0.2.6"
 ```

@@ -1,4 +1,4 @@
-package org.splitties.incubator.gradle
+package org.splitties.gradle
 
 import org.gradle.api.provider.Property
 import java.io.File
