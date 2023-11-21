@@ -8,9 +8,9 @@ import propertyOrEnv
 import propertyOrEnvOrNull
 
 context (Project)
-fun SigningExtension.trySignAll() {
+internal fun SigningExtension.trySignAll() {
     useInMemoryPgpKeys(
-        propertyOrEnvOrNull("GPG_key_id"), // If using a sub-key.
+        propertyOrEnvOrNull("GPG_key_id"), // If targeting a sub-key from an exported primary key.
         propertyOrEnvOrNull("GPG_private_key") ?: return,
         propertyOrEnv("GPG_private_password")
     )

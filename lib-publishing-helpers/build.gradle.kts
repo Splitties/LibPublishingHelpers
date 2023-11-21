@@ -1,5 +1,5 @@
 plugins {
-    `kotlin-jvm-lib`
+    id("kotlin-jvm-lib")
 }
 
 group = "com.louiscad.incubator"

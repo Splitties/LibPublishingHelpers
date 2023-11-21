@@ -5,3 +5,7 @@ plugins {
 dependencies {
     compileOnly(gradleKotlinDsl())
 }
+
+gradlePlugin {
+    vcsUrl = Publishing.gitUrl
+}

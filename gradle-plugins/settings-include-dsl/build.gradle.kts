@@ -1,13 +1,12 @@
 plugins {
-    `gradle-plugin`
+    id("gradle-plugin")
     `kotlin-dsl`
 }
 
 group = "org.splitties.gradle"
 
 gradlePlugin {
-    website = "https://github.com/LouisCAD/LibPublishingHelpers/tree/main/gradle-plugins/settings-include-dsl"
-    vcsUrl = "https://github.com/LouisCAD/LibPublishingHelpers.git"
+    website = "https://github.com/Splitties/LibPublishingHelpers/tree/main/gradle-plugins/settings-include-dsl"
     plugins {
         create(project.name) {
             id = "org.splitties.settings-include-dsl"

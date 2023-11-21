@@ -2,11 +2,6 @@ plugins {
     `kotlin-dsl`
 }
 
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-}
-
 fun plugin(id: String, version: String) = "$id:$id.gradle.plugin:$version"
 
 dependencies {
